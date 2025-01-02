@@ -18,6 +18,14 @@
 <body>
     <header>
         <h1>Welcome to My Website</h1>
+        <a href='/contact/'>
+            Contact
+        </a> 
+        |
+        <a href='/about/'>
+            About
+        </a>     
+
     </header>
     
      <table class="container">
@@ -53,12 +61,15 @@
             <li><a href="#">Contact</a></li>
         </ul>
     </nav>
-    <div class="container">
-        <h2>Explore the Home Section</h2>
-        <p>This is the home section of your website. Add more content to make it vibrant and engaging!</p>
-    </div>
-    <footer>
-        <p>&copy; 2024 My Website. All rights reserved.</p>
-    </footer>
+    <p>
+        {%if 'harsh' in vegetables%}
+           yes hai 
+        {%elif 'suar' in vegetables %}
+           nahi hai 
+        {%else%}
+           nope
+        {%endif%}
+    </p>
+    
 </body>
 </html>

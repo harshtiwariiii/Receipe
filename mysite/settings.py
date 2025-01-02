@@ -40,7 +40,8 @@ INSTALLED_APPS = [
 ]
 EXTERNAL_APPS=[
     'home',
-    'userinteraction'
+    'userinteraction',
+    'vege'
 ]
 
 
