@@ -1,12 +1,13 @@
 from django.shortcuts import render,redirect
 from .models import *
+from .models import Receipe
 from django.http import HttpResponse
 
 # Create your views here.
 
 
 def receipes(request):# taking data from frontend to backend 
-    if request.method =='POST':
+    if request.method =="POST":
        data =request.POST  #data put leta h bss text 
        receipe_name=data.get('receipe_name')#data text
        receipe_discription=data.get('receipe_discription')
@@ -22,6 +23,13 @@ def receipes(request):# taking data from frontend to backend
     
     
     queryset=Receipe.objects.all()
+    
+    if request.GET.get('search'):
+       queryset=queryset.filter(receipe_name__icontains= request.GET.get('search'))# icontains search karega ki ye string ati h ki nahi is particcular strings mai ki nahi 
+
+       
+    
+    
     context={'receipes':queryset}
     return render(request,'receipes.html',context)
 
@@ -32,26 +40,25 @@ def delete_receipe(request,id):
 
 
 def update_receipe(request,id):
-   queryset=Receipe.objects.get(id=id)
+   queryset=Receipe.objects.get(id = id)
    
    
-   if request.method=='POST':
+   if request.method == "POST":
       data =request.POST
 
       receipe_name=data.get('receipe_name')
       receipe_description=data.get('receipe_description')
       receipe_image=request.FILES.get('receipe_image')
 
-      queryset.receipe_name=receipe_name
-      queryset.receipe_discription=receipe_description
+      queryset.receipe_name = receipe_name
+      queryset.receipe_discription = receipe_description
 
       if receipe_image:
          queryset.receipe_image=receipe_image
-        
-         queryset.save()
+      queryset.save()
       return redirect('/receipes/')
+
+      
    context={'receipe':queryset}
    return render(request,'update_receipes.html',context)
-    
-
-   
+ 

@@ -6,6 +6,6 @@ from django.db import models
 
 class Receipe(models.Model):
     receipe_name= models.CharField( max_length=100)
-    receipe_discription=models.TextField()
+    receipe_discription=models.TextField(null=True, blank=True)
     receipe_image=models.ImageField((""), upload_to="receipe", height_field=None, width_field=None, max_length=None)
 
