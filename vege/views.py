@@ -94,3 +94,6 @@ def register(request):
 
       return redirect('/register/')
    return render (request,'register.html')
+
+
+# sd h gyv ws
