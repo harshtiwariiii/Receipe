@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect
 from .models import *
 from .models import Receipe
 from django.http import HttpResponse
+from django.contrib.auth.models import User
+from django.contrib import messages
 
 # Create your views here.
 
@@ -61,4 +63,34 @@ def update_receipe(request,id):
       
    context={'receipe':queryset}
    return render(request,'update_receipes.html',context)
+
+
+def login_page(request):
+   return render (request,'login.html')
  
+
+def register(request):
+   if request.method == "POST":
+      Full_name= request.POST.get('Full_name')
+      email= request.POST.get('email')
+      password= request.POST.get('password')
+
+
+      user= User.objects.create(Full_name==Full_name)
+
+      if user.exists():
+         messages.info(request,'full name already taken')
+         return redirect("/register/")
+
+      user =User.objects.create(
+        Full_name = Full_name ,
+        email=email     
+        
+      )
+      user.set_password(password)
+      user.save()
+
+      messages.info(request,'account created successfully')
+
+      return redirect('/register/')
+   return render (request,'register.html')
