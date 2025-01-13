@@ -49,19 +49,19 @@
         {%csrf_token%}
         <h1>Register</h1>
         <hr>
-        {%if messages%}
+        {% if messages %}
         
         <div class="alert alert-primary" role="alert">
             {%for message in messages%}
             {{ message}}
             {%endfor%}
         </div>
-        {%endif%}
+        {% endif %}
 
         <form>
             <div class="mb-3">
-                <label for="name" class="form-label">Full Name</label>
-                <input type="text" class="form-control" name= "Full_name"id="name" placeholder="Enter your full name" required>
+                <label for="name" class="form-label">Username</label>
+                <input type="text" class="form-control" name= "username"id="name" placeholder="Enter your full name" required>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email Address</label>
