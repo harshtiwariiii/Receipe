@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from .models import *
 from .models import Receipe
+from django.http import HttpRequest
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -71,22 +72,22 @@ def login_page(request):
 
 def register(request):
    if request.method == "POST":
-      Full_name= request.POST.get('Full_name')
+      username= request.POST.get('username')
       email= request.POST.get('email')
       password= request.POST.get('password')
 
 
-      user= User.objects.create(Full_name==Full_name)
+      user= User.objects.filter(username == username)
 
       if user.exists():
-         messages.info(request,'full name already taken')
-         return redirect("/register/")
+          messages.info(request,'full name already taken')
+          return redirect("/register/")
 
       user =User.objects.create(
-        Full_name = Full_name ,
+        username = username ,
         email=email     
-        
-      )
+             )
+      
       user.set_password(password)
       user.save()
 
@@ -95,5 +96,3 @@ def register(request):
       return redirect('/register/')
    return render (request,'register.html')
 
-
-#djshbvuanvaybgvjkhabcv
