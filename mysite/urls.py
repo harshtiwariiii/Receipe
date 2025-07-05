@@ -24,6 +24,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 
 urlpatterns = [
+    path('',home,name="home"),  # Root URL redirects to home
     path('home/',home,name="home"),
     path('about/',about,name="about"),
     path('contact/',contact,name="contact"),
@@ -33,9 +34,6 @@ urlpatterns = [
     path('login/',login_page,name="login_page"),
     path('register/',register,name="register"),
     path('admin/', admin.site.urls),
-  
-  
-  
 ]
 
 

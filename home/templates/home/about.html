@@ -1,63 +1,333 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About</title>
+{% extends 'home/base.html' %}
+
+{% block title %}About - Recipe Website{% endblock %}
+
+{% block header_title %}About Our Culinary Journey{% endblock %}
+
+{% block extra_css %}
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #fafafa;
-            color: #262626;
-        }
-        header {
-            background-color: #3897f0;
+    .hero-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 4rem 0;
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .hero-section h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .hero-section p {
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto;
+        opacity: 0.9;
+    }
+    
+    .stats-section {
+        background: #f8f9fa;
+        padding: 3rem 0;
+        margin: 2rem 0;
+    }
+    
+    .stat-card {
+        text-align: center;
+        padding: 2rem;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin: 1rem 0;
+        transition: transform 0.3s ease;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .stat-number {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #3897f0;
+        display: block;
+    }
+    
+    .stat-label {
+        font-size: 1.1rem;
+        color: #666;
+        margin-top: 0.5rem;
+    }
+    
+    .mission-section {
+        padding: 3rem 0;
+    }
+    
+    .mission-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin: 1rem 0;
+        border-left: 4px solid #3897f0;
+    }
+    
+    .team-section {
+        background: #f8f9fa;
+        padding: 3rem 0;
+        margin: 2rem 0;
+    }
+    
+    .team-member {
+        text-align: center;
+        padding: 2rem;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin: 1rem 0;
+    }
+    
+    .team-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        margin: 0 auto 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+        font-weight: bold;
+    }
+    
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+    }
+    
+    .value-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+    
+    .value-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .value-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .timeline {
+        position: relative;
+        padding: 2rem 0;
+    }
+    
+    .timeline-item {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin: 1rem 0;
+        border-left: 4px solid #3897f0;
+    }
+    
+    .timeline-year {
+        font-weight: bold;
+        color: #3897f0;
+        font-size: 1.2rem;
+    }
+    
+    .cta-section {
+        background: linear-gradient(135deg, #3897f0 0%, #2878c8 100%);
             color: white;
-            padding: 1rem;
+        padding: 3rem 0;
             text-align: center;
-        }
-        section {
-            padding: 2rem;
-            max-width: 800px;
-            margin: auto;
-        }
-        h1, h2 {
+        margin: 2rem 0;
+    }
+    
+    .cta-button {
+        background: white;
+        color: #3897f0;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        display: inline-block;
+        margin-top: 1rem;
+        transition: transform 0.3s ease;
+    }
+    
+    .cta-button:hover {
+        transform: scale(1.05);
             color: #3897f0;
         }
     </style>
-</head>
-<body>
-    <header>
-        <h1>About</h1>
-        <a href='/contact/'>
-            Contact
-        </a> 
-        |
-        <a href='/home/'>
-            home
-        </a>  
-    </header>
-    <section>
-        <h2>Welcome </h2>
-        <p>Instagram is a photo and video sharing social networking service that allows users to capture and share moments from their lives. Founded in 2010, Instagram has grown to become one of the world's most popular platforms for visual storytelling and community building.</p>
+{% endblock %}
 
-        <h2>Our Mission</h2>
-        <p>To bring you closer to the people and things you love.</p>
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container">
+        <h1>🍳 Culinary Excellence Since 2020</h1>
+        <p>Discover the art of cooking with our curated collection of recipes, cooking tips, and culinary inspiration. From traditional favorites to modern innovations, we're here to make your kitchen adventures extraordinary.</p>
+    </div>
+</div>
 
-        <h2>Our Vision</h2>
-        <p>To inspire creativity and bring the world closer together.</p>
+<!-- Stats Section -->
+<div class="stats-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <span class="stat-number">500+</span>
+                    <div class="stat-label">Recipes</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <span class="stat-number">50K+</span>
+                    <div class="stat-label">Happy Cooks</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <span class="stat-number">100+</span>
+                    <div class="stat-label">Categories</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <span class="stat-number">4.9⭐</span>
+                    <div class="stat-label">User Rating</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-        <h2>Our Values</h2>
-        <ul>
-            <li>Creativity</li>
-            <li>Community</li>
-            <li>Connection</li>
-            <li>Inclusivity</li>
-        </ul>
-    </section>
-</body>
-</html>
+<!-- Mission Section -->
+<div class="mission-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mission-card">
+                    <h3>🎯 Our Mission</h3>
+                    <p>To democratize the art of cooking by providing accessible, reliable, and inspiring recipes that bring families and friends together around the dinner table.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mission-card">
+                    <h3>🌟 Our Vision</h3>
+                    <p>To become the world's most trusted culinary platform, inspiring millions to discover the joy of cooking and creating meaningful connections through food.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Values Section -->
+<div class="container">
+    <h2 class="text-center mb-4">Our Core Values</h2>
+    <div class="values-grid">
+        <div class="value-card">
+            <div class="value-icon">🎨</div>
+            <h4>Creativity</h4>
+            <p>We celebrate culinary innovation and encourage cooks to experiment with flavors, techniques, and ingredients.</p>
+        </div>
+        <div class="value-card">
+            <div class="value-icon">🤝</div>
+            <h4>Community</h4>
+            <p>Building a global community of food lovers who share, learn, and grow together through their passion for cooking.</p>
+        </div>
+        <div class="value-card">
+            <div class="value-icon">🌍</div>
+            <h4>Diversity</h4>
+            <p>Embracing culinary traditions from around the world and celebrating the rich tapestry of global cuisine.</p>
+        </div>
+        <div class="value-card">
+            <div class="value-icon">📚</div>
+            <h4>Education</h4>
+            <p>Providing comprehensive cooking education for all skill levels, from beginners to experienced chefs.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Team Section -->
+<div class="team-section">
+    <div class="container">
+        <h2 class="text-center mb-4">Meet Our Culinary Team</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="team-member">
+                    <div class="team-avatar">👨‍🍳</div>
+                    <h4>Chef Harsh</h4>
+                    <p class="text-muted">Head Chef & Founder</p>
+                    <p>With over 10 years of culinary experience, Chef Harsh brings passion and expertise to every recipe.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="team-member">
+                    <div class="team-avatar">👩‍🍳</div>
+                    <h4>Chef Seejal</h4>
+                    <p class="text-muted">Pastry Specialist</p>
+                    <p>Our dessert expert who creates magical sweet treats that bring smiles to faces worldwide.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="team-member">
+                    <div class="team-avatar">👨‍🍳</div>
+                    <h4>Chef Shorya</h4>
+                    <p class="text-muted">International Cuisine</p>
+                    <p>Specializing in global flavors and bringing authentic international recipes to your kitchen.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Timeline Section -->
+<div class="container">
+    <h2 class="text-center mb-4">Our Journey</h2>
+    <div class="timeline">
+        <div class="timeline-item">
+            <div class="timeline-year">2020</div>
+            <h4>Foundation</h4>
+            <p>Started as a small blog sharing family recipes and cooking tips.</p>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-year">2022</div>
+            <h4>Growth</h4>
+            <p>Reached 10,000 users and launched our mobile app for better accessibility.</p>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-year">2024</div>
+            <h4>Innovation</h4>
+            <p>Introduced AI-powered recipe recommendations and personalized meal planning.</p>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-year">2025</div>
+            <h4>Expansion</h4>
+            <p>Launched international recipe collections and cooking video tutorials.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action Section -->
+<div class="cta-section">
+    <div class="container">
+        <h2>Ready to Start Your Culinary Adventure?</h2>
+        <p>Join thousands of home cooks who are already creating amazing dishes with our recipes.</p>
+        <a href="{% url 'receipes' %}" class="cta-button">Explore Recipes</a>
+    </div>
+</div>
+{% endblock %}

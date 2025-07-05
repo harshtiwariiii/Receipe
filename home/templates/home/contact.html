@@ -1,81 +1,391 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact </title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #fafafa;
-            color: #262626;
+{% extends 'home/base.html' %}
+
+{% block title %}Contact - Recipe Website{% endblock %}
+
+{% block header_title %}Get in Touch{% endblock %}
+
+{% block extra_css %}
+<style>
+    .contact-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 4rem 0;
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .contact-hero h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .contact-hero p {
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto;
+        opacity: 0.9;
+    }
+    
+    .contact-info-section {
+        background: #f8f9fa;
+        padding: 3rem 0;
+        margin: 2rem 0;
+    }
+    
+    .contact-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        text-align: center;
+        margin: 1rem 0;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 2px solid transparent;
+    }
+    
+    .contact-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        border-color: #3897f0;
+    }
+    
+    .contact-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        margin: 0 auto 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: white;
+    }
+    
+    .contact-form-section {
+        padding: 3rem 0;
+    }
+    
+    .form-container {
+        background: white;
+        padding: 3rem;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .form-group {
+        margin-bottom: 2rem;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #333;
+        font-size: 1.1rem;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 1rem;
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        background: #f8f9fa;
+    }
+    
+    .form-control:focus {
+        outline: none;
+        border-color: #3897f0;
+        box-shadow: 0 0 0 3px rgba(56, 151, 240, 0.1);
+        background: white;
+    }
+    
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+    
+    .submit-btn {
+        background: linear-gradient(135deg, #3897f0 0%, #2878c8 100%);
+        color: white;
+        padding: 1rem 3rem;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        width: 100%;
+        margin-top: 1rem;
+    }
+    
+    .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(56, 151, 240, 0.3);
+    }
+    
+    .faq-section {
+        background: #f8f9fa;
+        padding: 3rem 0;
+        margin: 2rem 0;
+    }
+    
+    .faq-item {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        margin: 1rem 0;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+    
+    .faq-item:hover {
+        transform: translateY(-5px);
+    }
+    
+    .faq-question {
+        font-weight: 600;
+        color: #333;
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .faq-answer {
+        color: #666;
+        line-height: 1.6;
+    }
+    
+    .social-links {
+        text-align: center;
+        padding: 2rem 0;
+    }
+    
+    .social-btn {
+        display: inline-block;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        text-decoration: none;
+        margin: 0 1rem;
+        font-size: 1.5rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .social-btn:hover {
+        transform: translateY(-5px) scale(1.1);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        color: white;
+    }
+    
+    .map-section {
+        padding: 3rem 0;
+        background: white;
+    }
+    
+    .map-container {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 2rem;
+        text-align: center;
+        border: 2px dashed #ddd;
+    }
+    
+    .map-placeholder {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 3rem;
+        border-radius: 10px;
+        margin: 1rem 0;
+    }
+    
+    @media (max-width: 768px) {
+        .form-row {
+            grid-template-columns: 1fr;
         }
-        header {
-            background-color: #3897f0;
-            color: white;
-            padding: 1rem;
-            text-align: center;
+        
+        .contact-hero h1 {
+            font-size: 2rem;
         }
-        section {
+        
+        .form-container {
             padding: 2rem;
-            max-width: 800px;
-            margin: auto;
+            margin: 0 1rem;
         }
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-        label {
-            margin-top: 1rem;
-            font-weight: bold;
-        }
-        input, textarea, button {
-            margin-top: 0.5rem;
-            padding: 0.5rem;
-            font-size: 1rem;
-        }
-        button {
-            background-color: #3897f0;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #2878c8;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Contact</h1>
-        <a href='/home/'>
-            home
-        </a> 
-        |
-        <a href='/about/'>
-            About
-        </a>  
-    </header>
-    <section>
-        <h2>Get in Touch</h2>
-        <p>If you have any questions, feedback, or concerns, please fill out the form below. We'd love to hear from you!</p>
+    }
+</style>
+{% endblock %}
 
-        <form action="#" method="post">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" placeholder="Your Name" required>
+{% block content %}
+<!-- Hero Section -->
+<div class="contact-hero">
+    <div class="container">
+        <h1>📞 Let's Connect!</h1>
+        <p>Have questions about our recipes? Want to share your culinary creations? We'd love to hear from you! Reach out to us through any of the channels below.</p>
+    </div>
+</div>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Your Email" required>
+<!-- Contact Information Section -->
+<div class="contact-info-section">
+    <div class="container">
+        <h2 class="text-center mb-4">Multiple Ways to Reach Us</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="contact-card">
+                    <div class="contact-icon">📧</div>
+                    <h4>Email Us</h4>
+                    <p>Send us a detailed message and we'll get back to you within 24 hours.</p>
+                    <strong>hello@recipewebsite.com</strong>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="contact-card">
+                    <div class="contact-icon">📱</div>
+                    <h4>Call Us</h4>
+                    <p>Speak directly with our culinary experts for immediate assistance.</p>
+                    <strong>+1 (555) 123-4567</strong>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="contact-card">
+                    <div class="contact-icon">💬</div>
+                    <h4>Live Chat</h4>
+                    <p>Get instant help from our support team during business hours.</p>
+                    <strong>Available 9 AM - 6 PM EST</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+<!-- Contact Form Section -->
+<div class="contact-form-section">
+    <div class="container">
+        <div class="form-container">
+            <h2 class="text-center mb-4">Send Us a Message</h2>
+            <form action="#" method="post">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email address" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Subject *</label>
+                    <select id="subject" name="subject" class="form-control" required>
+                        <option value="">Select a subject</option>
+                        <option value="recipe-request">Recipe Request</option>
+                        <option value="feedback">Feedback & Suggestions</option>
+                        <option value="technical-support">Technical Support</option>
+                        <option value="partnership">Partnership Inquiry</option>
+                        <option value="general">General Inquiry</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="priority">Priority Level</label>
+                    <select id="priority" name="priority" class="form-control">
+                        <option value="low">Low Priority</option>
+                        <option value="medium" selected>Medium Priority</option>
+                        <option value="high">High Priority</option>
+                        <option value="urgent">Urgent</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Message *</label>
+                    <textarea id="message" name="message" class="form-control" rows="6" placeholder="Tell us more about your inquiry..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" name="newsletter" value="yes">
+                        Subscribe to our newsletter for recipe updates and cooking tips
+                    </label>
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    📤 Send Message
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
 
-            <button type="submit">Submit</button>
-        </form>
-    </section>
-</body>
-</html>
+<!-- FAQ Section -->
+<div class="faq-section">
+    <div class="container">
+        <h2 class="text-center mb-4">Frequently Asked Questions</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="faq-item">
+                    <div class="faq-question">How can I submit my own recipe?</div>
+                    <div class="faq-answer">You can submit your recipes through our recipe submission form. We review all submissions and feature the best ones on our platform.</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="faq-item">
+                    <div class="faq-question">Do you offer cooking classes?</div>
+                    <div class="faq-answer">Yes! We offer both online and in-person cooking classes. Check our events page for upcoming sessions and registration details.</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="faq-item">
+                    <div class="faq-question">Can I request specific recipes?</div>
+                    <div class="faq-answer">Absolutely! We love recipe requests. Use the contact form above and select "Recipe Request" as the subject.</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="faq-item">
+                    <div class="faq-question">How do I report an issue with a recipe?</div>
+                    <div class="faq-answer">If you encounter any issues with our recipes, please contact us with the recipe name and specific problem you encountered.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Social Media Section -->
+<div class="container">
+    <div class="social-links">
+        <h3 class="text-center mb-4">Follow Us on Social Media</h3>
+        <p class="text-center mb-4">Stay updated with our latest recipes, cooking tips, and culinary adventures!</p>
+        <a href="#" class="social-btn">📘</a>
+        <a href="#" class="social-btn">📷</a>
+        <a href="#" class="social-btn">🐦</a>
+        <a href="#" class="social-btn">📺</a>
+        <a href="#" class="social-btn">📌</a>
+    </div>
+</div>
+
+<!-- Map Section -->
+<div class="map-section">
+    <div class="container">
+        <h2 class="text-center mb-4">Visit Our Kitchen Studio</h2>
+        <div class="map-container">
+            <div class="map-placeholder">
+                <h4>📍 Our Location</h4>
+                <p>123 Culinary Street, Foodie City, FC 12345</p>
+                <p><strong>Kitchen Studio Hours:</strong> Monday - Friday, 9 AM - 6 PM EST</p>
+                <p><strong>Weekend Workshops:</strong> Saturday & Sunday, 10 AM - 4 PM EST</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

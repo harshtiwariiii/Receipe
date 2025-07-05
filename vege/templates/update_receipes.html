@@ -1,86 +1,370 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delicious Recipe</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f8f8;
-            color: #333;
-        }
-        header {
-            background: #ff9800;
-            color: #fff;
-            padding: 20px 0;
-            text-align: center;
-        }
-        main {
-            max-width: 2500px;
-            margin: 20px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        h1, h2 {
-            color: #ff9800;
-        }
-        ul {
-            list-style-type: square;
-            padding-left: 30px;
-        }
-        .instructions {
-            margin-top: 30px;
-        }
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            padding: 20px 0;
-            background: #333;
-            color: #fff;
-        }
-    </style>
-</head>
-<body>
+{% extends 'home/base.html' %}
 
-<header></header>
-  
-<div class="container mt-5">
-    <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <h2>Update Receipe</h2>
-        <hr>
-        <div class="mb-3">
-            <label for="name" class="form-label">Recipe name</label>
-            <input name ="receipe_name" value="{{receipe.receipe_name}}" type="text" class="form-control" id="name" placeholder="Enter your Receipe">
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Receipe Discription</label>
+{% block title %}Update Recipe - Recipe Website{% endblock %}
+
+{% block header_title %}Update Recipe{% endblock %}
+
+{% block extra_css %}
+<style>
+    .update-hero {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+        color: white;
+        padding: 4rem 0;
+        text-align: center;
+        margin-bottom: 3rem;
+    }
     
-            <textarea class="form-control" name="receipe_discription" placeholder="Enter your Discription" >{{receipe.receipe_discription}}</textarea>
-        </div>
-        <div class="mb-3">
-            <label for="message" class="form-label">Receipe Image</label>
-            <input name="receipe_image"  type ="file"  class="form-control"  >
-        </div>
-        <button type="submit" class="btn btn-success">UPDATE RECEIPE</button>
+    .update-hero h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .update-hero p {
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto;
+        opacity: 0.9;
+    }
+    
+    .update-form-section {
+        background: #f8f9fa;
+        padding: 3rem 0;
+        margin: 2rem 0;
+    }
+    
+    .update-form {
+        background: white;
+        padding: 3rem;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .form-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #f8f9fa;
+    }
+    
+    .form-header h2 {
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-header p {
+        color: #666;
+        margin: 0;
+    }
+    
+    .form-group {
+        margin-bottom: 2rem;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #333;
+        font-size: 1.1rem;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 1rem;
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        background: #f8f9fa;
+    }
+    
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+        background: white;
+    }
+    
+    .current-image {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 10px;
+        margin: 1rem 0;
+        text-align: center;
+    }
+    
+    .current-image img {
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .file-input-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+    
+    .file-input {
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+    
+    .file-input-label {
+        display: block;
+        padding: 1rem;
+        border: 2px dashed #ddd;
+        border-radius: 10px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+    }
+    
+    .file-input-label:hover {
+        border-color: var(--primary-color);
+        background: rgba(255, 107, 107, 0.05);
+    }
+    
+    .file-input-label i {
+        font-size: 2rem;
+        color: #666;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+    
+    .submit-btn {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        padding: 1rem 3rem;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        width: 100%;
+        margin-top: 1rem;
+    }
+    
+    .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+    
+    .btn-cancel {
+        background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        color: white;
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-decoration: none;
+        text-align: center;
+        flex: 1;
+    }
+    
+    .btn-cancel:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(108, 117, 125, 0.3);
+        color: white;
+    }
+    
+    .preview-section {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        margin: 2rem 0;
+    }
+    
+    .preview-title {
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+    
+    .preview-content {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 10px;
+        border-left: 4px solid var(--primary-color);
+    }
+    
+    .preview-content h4 {
+        color: var(--dark-color);
+        margin-bottom: 0.5rem;
+    }
+    
+    .preview-content p {
+        color: #666;
+        margin: 0;
+        line-height: 1.6;
+    }
+    
+    .help-text {
+        font-size: 0.9rem;
+        color: #666;
+        margin-top: 0.5rem;
+        font-style: italic;
+    }
+    
+    .required-field::after {
+        content: " *";
+        color: var(--danger-color);
+        font-weight: bold;
+    }
+    
+    @media (max-width: 768px) {
+        .update-form {
+            padding: 2rem;
+            margin: 0 1rem;
+        }
         
-    </form>
-    
+        .update-hero h1 {
+            font-size: 2rem;
+        }
+        
+        .action-buttons {
+            flex-direction: column;
+        }
+        
+        .current-image img {
+            max-width: 150px;
+            max-height: 150px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="update-hero">
+    <div class="container">
+        <h1>✏️ Update Recipe</h1>
+        <p>Refine and improve your recipe with better details, ingredients, and instructions. Make it perfect!</p>
+    </div>
 </div>
-</main>
 
-<footer>
-   
-</footer>
+<!-- Update Form Section -->
+<div class="update-form-section">
+    <div class="container">
+        <div class="update-form">
+            <div class="form-header">
+                <h2><i class="fas fa-edit"></i> Edit Recipe Details</h2>
+                <p>Update your recipe information below. All fields marked with * are required.</p>
+            </div>
+            
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="receipe_name" class="required-field">Recipe Name</label>
+                    <input name="receipe_name" value="{{receipe.receipe_name}}" type="text" class="form-control" id="receipe_name" placeholder="Enter recipe name" required>
+                    <div class="help-text">Choose a descriptive and appealing name for your recipe</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="receipe_discription" class="required-field">Recipe Description</label>
+                    <textarea class="form-control" name="receipe_discription" id="receipe_discription" rows="6" placeholder="Describe your recipe, including ingredients, cooking instructions, and any special tips..." required>{{receipe.receipe_discription}}</textarea>
+                    <div class="help-text">Include ingredients, step-by-step instructions, cooking time, and serving suggestions</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="receipe_image">Recipe Image</label>
+                    
+                    {% if receipe.receipe_image %}
+                    <div class="current-image">
+                        <h5>Current Image:</h5>
+                        <img src="/media/{{receipe.receipe_image}}" alt="{{receipe.receipe_name}}" class="img-fluid">
+                        <p class="mt-2 text-muted">Upload a new image to replace the current one</p>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="file-input-wrapper">
+                        <input name="receipe_image" type="file" class="file-input" id="receipe_image" accept="image/*">
+                        <label for="receipe_image" class="file-input-label">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <div>
+                                <strong>Click to upload new image</strong><br>
+                                <small>JPG, PNG, GIF up to 5MB</small>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="help-text">Upload a high-quality image of your finished dish (optional)</div>
+                </div>
+                
+                <div class="action-buttons">
+                    <a href="{% url 'receipes' %}" class="btn-cancel">
+                        <i class="fas fa-times"></i> Cancel
+                    </a>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-save"></i> Update Recipe
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<!-- Preview Section -->
+<div class="container">
+    <div class="preview-section">
+        <h3 class="preview-title"><i class="fas fa-eye"></i> Recipe Preview</h3>
+        <div class="preview-content">
+            <h4>{{receipe.receipe_name}}</h4>
+            <p>{{receipe.receipe_discription|truncatewords:50}}</p>
+            <small class="text-muted">This is how your recipe will appear to users after updating</small>
+        </div>
+    </div>
+</div>
+
+<!-- Tips Section -->
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h3><i class="fas fa-lightbulb"></i> Tips for Better Recipes</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-list"></i> Recipe Structure</h5>
+                    <ul>
+                        <li>Start with a brief introduction</li>
+                        <li>List ingredients with measurements</li>
+                        <li>Provide step-by-step instructions</li>
+                        <li>Include cooking time and servings</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5><i class="fas fa-camera"></i> Image Guidelines</h5>
+                    <ul>
+                        <li>Use high-quality, well-lit photos</li>
+                        <li>Show the finished dish clearly</li>
+                        <li>Include process shots if helpful</li>
+                        <li>Keep file size under 5MB</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
