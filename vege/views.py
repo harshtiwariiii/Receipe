@@ -5,10 +5,12 @@ from django.http import HttpRequest
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-
+@login_required(login_url='/login/')
 def receipes(request):# taking data from frontend to backend 
     if request.method =="POST":
        data =request.POST  #data put leta h bss text 
@@ -67,8 +69,39 @@ def update_receipe(request,id):
 
 
 def login_page(request):
+   if request.method=="POST":
+      email=request.POST.get('email')
+      password = request.POST.get('password')
+
+      # if not  User.objects.filter(username=username).exists():
+      #    messages.error(request,'Invalid username')
+      #    return redirect('/login/')
+
+      try:
+         user_obj=User.objects.get(email=email)
+         username=user_obj.username
+
+      except User.DoesNotExist:
+         messages.error(request,'User not found')
+         return redirect('/login/')
+
+      user =authenticate(username=username,password=password)
+      if user is None:
+         messages.error(request,'Invalid password')
+         return redirect('/login/')
+         
+      else:
+         login(request,user)
+         next_url=request.GET.get('next')
+         if next_url:
+            return redirect(next_url)
+         return redirect('/receipes/')
+         
    return render (request,'login.html')
  
+def logout_page(request):
+   logout(request)
+   return redirect ('/login/')
 
 def register(request):
    if request.method == "POST":
@@ -77,11 +110,12 @@ def register(request):
       password= request.POST.get('password')
 
 
-      user= User.objects.filter(username == username)
+      user= User.objects.filter(username = username)
 
       if user.exists():
+          
           messages.info(request,'full name already taken')
-          return redirect("/register/")
+          return redirect("/login/")
 
       user =User.objects.create(
         username = username ,
