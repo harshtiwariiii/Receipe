@@ -744,6 +744,9 @@
                     <i class="fas fa-user-plus"></i> Register
                 </a>
                 {%else%}
+                <a href="{% url 'profile' %}" class="nav-link auth-link">
+                    <i class="fas fa-user"></i> Profile
+                </a>
                 <a href="{% url 'logout' %}" class="nav-link auth-link register-btn"> Logout</a>
                 {%endif%}
 
@@ -989,10 +992,12 @@
             img.addEventListener('load', function() {
                 this.style.opacity = '1';
             });
-            
+
             img.addEventListener('error', function() {
-                this.src = '/static/images/placeholder.jpg';
-                this.alt = 'Image not available';
+                if (!this.src.endsWith('placeholder.jpg')) {
+                    this.src = '/static/images/placeholder.jpg';
+                    this.alt = 'Image not available';
+                }
             });
         });
         

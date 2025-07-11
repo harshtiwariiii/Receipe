@@ -127,6 +127,6 @@ def register(request):
 
       messages.info(request,'account created successfully')
 
-      return redirect('/register/')
+      return redirect('/login/')
    return render (request,'register.html')
 
