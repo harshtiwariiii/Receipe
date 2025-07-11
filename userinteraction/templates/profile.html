@@ -1,0 +1,27 @@
+{% extends 'home/base.html' %}
+{% block content %}
+<h2>My Profile</h2>
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-success">{{ message }}</div>
+  {% endfor %}
+{% endif %}
+
+{% if form.instance.avatar %}
+  <img src="{{ form.instance.avatar.url }}" alt="Avatar" style="max-width:100px; border-radius:50%;">
+{% endif %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+      {{ form.avatar.label_tag }}<br>
+      {{ form.avatar }}
+    </div>
+    <div class="mb-3">
+      {{ form.bio.label_tag }}
+      {{ form.bio }}
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+{% endblock %}
